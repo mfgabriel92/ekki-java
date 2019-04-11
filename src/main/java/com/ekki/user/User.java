@@ -15,6 +15,7 @@ public class User {
     private String name;
     private String cpf;
     private String phone_number;
+    private String balance;
 
     public Integer getId() {
         return id;
@@ -46,5 +47,13 @@ public class User {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
     }
 }
