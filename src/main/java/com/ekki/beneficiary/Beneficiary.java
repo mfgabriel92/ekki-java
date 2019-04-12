@@ -10,8 +10,9 @@ import javax.persistence.Table;
 @Table(name = "beneficiaries")
 public class Beneficiary {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private Integer user_id;
     private String name;
     private String account;
     private String balance;
@@ -22,6 +23,14 @@ public class Beneficiary {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
     public String getName() {

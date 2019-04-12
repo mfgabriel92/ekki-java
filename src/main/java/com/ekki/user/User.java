@@ -14,7 +14,7 @@ public class User {
     private Integer id;
     private String name;
     private String cpf;
-    private String phone_number;
+    private String phone;
     private String balance;
 
     public Integer getId() {
@@ -41,12 +41,12 @@ public class User {
         this.cpf = cpf;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getBalance() {

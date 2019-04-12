@@ -1,5 +1,7 @@
 package com.ekki.beneficiary;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +17,7 @@ public class BeneficiaryController {
     private BeneficiaryRepository repository;
 
     @PostMapping("/")
-    public Beneficiary addBeneficiary(@RequestBody Beneficiary beneficiary) {
+    public Beneficiary addBeneficiary(@Valid @RequestBody Beneficiary beneficiary) {
         return repository.save(beneficiary);
     }
 }
