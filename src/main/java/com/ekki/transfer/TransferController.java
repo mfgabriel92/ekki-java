@@ -1,6 +1,8 @@
-package com.ekki.beneficiary;
+package com.ekki.transfer;
 
 import javax.validation.Valid;
+
+import com.ekki.beneficiary.BeneficiaryNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,14 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/api/beneficiaries")
+@RequestMapping(path = "/api/transfers")
 @CrossOrigin(origins = "http://localhost:3000")
-public class BeneficiaryController {
+public class TransferController {
     @Autowired
-    private BeneficiaryRepository repository;
+    private TransferRepository repository;
 
     @PostMapping("/")
-    public Beneficiary addBeneficiary(@Valid @RequestBody Beneficiary beneficiary) {
-        return repository.save(beneficiary);
+    public Transfer addTransfer(@Valid @RequestBody Transfer transfer) {
+        if (!repository.hasBeneficiaryWithId(transfer.getBeneficiaryId())) {
+            throw new BeneficiaryNotFoundException("Beneficiary does not exist");
+        }
+
+        return repository.save(transfer);
     }
 }
