@@ -19,8 +19,7 @@ public class BeneficiaryController {
 
     @GetMapping("/")
     public Iterable<Beneficiary> fetchAll() {
-        Iterable<Beneficiary> obeneficiaries = repository.findAll(1);
-        return obeneficiaries;
+        return repository.findAll(1);
     }
 
     @PostMapping("/")
