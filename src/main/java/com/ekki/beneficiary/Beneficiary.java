@@ -1,5 +1,8 @@
 package com.ekki.beneficiary;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +19,12 @@ public class Beneficiary {
     private String name;
     private String account;
     private String balance;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    public Beneficiary() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     public Integer getId() {
         return id;
@@ -55,5 +64,13 @@ public class Beneficiary {
 
     public void setBalance(String balance) {
         this.balance = balance;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

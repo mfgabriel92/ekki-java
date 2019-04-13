@@ -1,6 +1,6 @@
 package com.ekki.transfer;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "transfers")
@@ -23,8 +21,11 @@ public class Transfer {
     private Integer beneficiaryId;
     private String amount;
     @Column(name = "created_at")
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
-    private Date createdAt;
+    private LocalDateTime createdAt;
+
+    public Transfer() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     public Integer getId() {
         return id;
@@ -58,11 +59,11 @@ public class Transfer {
         this.amount = amount;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }
