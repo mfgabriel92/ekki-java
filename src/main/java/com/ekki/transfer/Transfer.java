@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "transfers")
@@ -16,9 +17,12 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "user_id")
+    @NotNull
     private Integer userId;
     @Column(name = "beneficiary_id")
+    @NotNull
     private Integer beneficiaryId;
+    @NotNull
     private String amount;
     @Column(name = "created_at")
     private LocalDateTime createdAt;

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "histories")
@@ -16,8 +17,8 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "transfer_id")
+    @NotNull
     private Integer transferId;
-    private String type;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -39,14 +40,6 @@ public class History {
 
     public void setTransferId(Integer transferId) {
         this.transferId = transferId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "beneficiaries")
@@ -15,15 +16,20 @@ public class Beneficiary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer user_id;
+    @Column(name = "user_id")
+    @NotNull
+    private Integer userId;
+    @NotNull
     private String name;
+    @NotNull
     private String account;
-    private String balance;
+    private Double balance;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public Beneficiary() {
         this.createdAt = LocalDateTime.now();
+        this.balance = 0d;
     }
 
     public Integer getId() {
@@ -34,12 +40,12 @@ public class Beneficiary {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -58,11 +64,11 @@ public class Beneficiary {
         this.account = account;
     }
 
-    public String getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

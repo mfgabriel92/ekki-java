@@ -2,7 +2,7 @@ package com.ekki.transfer;
 
 import javax.validation.Valid;
 
-import com.ekki.beneficiary.BeneficiaryNotFoundException;
+import com.ekki.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +21,7 @@ public class TransferController {
     @PostMapping("/")
     public Transfer addTransfer(@Valid @RequestBody Transfer transfer) {
         if (!repository.hasBeneficiaryWithId(transfer.getBeneficiaryId())) {
-            throw new BeneficiaryNotFoundException("Beneficiary does not exist");
+            throw new NotFoundException("Beneficiary does not exist");
         }
 
         return repository.save(transfer);
