@@ -23,7 +23,7 @@ public class Transfer {
     @NotNull
     private Integer beneficiaryId;
     @NotNull
-    private String amount;
+    private Double amount;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -55,11 +55,11 @@ public class Transfer {
         this.beneficiaryId = beneficiaryId;
     }
 
-    public String getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
