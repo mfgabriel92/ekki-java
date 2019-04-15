@@ -27,7 +27,7 @@ public class HistoryController {
     @PostMapping("/")
     public History addHistory(@Valid @RequestBody History history) {
         if (!repository.hasTransferWithId(history.getTransferId())) {
-            throw new NotFoundException("Transfer does not exist");
+            throw new NotFoundException("Transaction does not exist");
         }
 
         return repository.save(history);

@@ -1,9 +1,10 @@
-package com.ekki.transfer;
+package com.ekki.transaction;
 
 import javax.validation.Valid;
 
 import com.ekki.NotFoundException;
 import com.ekki.beneficiary.BeneficiaryRepository;
+import com.ekki.history.HistoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,22 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/api/transfers")
 @CrossOrigin(origins = "http://localhost:3000")
-public class TransferController {
+public class TransactionController {
     @Autowired
-    private TransferRepository transferRepository;
+    private TransactionRepository transactionRepository;
     @Autowired
     private BeneficiaryRepository beneficiaryRepository;
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @PostMapping("/")
-    public Transfer addTransfer(@Valid @RequestBody Transfer transfer) {
-        if (!transferRepository.hasBeneficiaryWithId(transfer.getBeneficiaryId())) {
+    public Transaction addTransfer(@Valid @RequestBody Transaction transaction) {
+        if (!transactionRepository.hasBeneficiaryWithId(transaction.getBeneficiaryId())) {
             throw new NotFoundException("Beneficiary does not exist");
         }
 
-        Transfer t = transferRepository.save(transfer);
+        Transaction newTransfer = transactionRepository.save(transaction);
 
-        beneficiaryRepository.updateBeneficiaryBalance(t.getAmount(), t.getBeneficiaryId());
+        try {
+            beneficiaryRepository.updateBeneficiaryBalance(newTransfer.getAmount(), newTransfer.getBeneficiaryId());
+            historyRepository.insertHistory(newTransfer.getId());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        return t;
+        return newTransfer;
     }
 }

@@ -1,4 +1,4 @@
-package com.ekki.transfer;
+package com.ekki.transaction;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

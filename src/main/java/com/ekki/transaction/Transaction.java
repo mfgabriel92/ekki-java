@@ -1,4 +1,4 @@
-package com.ekki.transfer;
+package com.ekki.transaction;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "transfers")
-public class Transfer {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,7 +27,7 @@ public class Transfer {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Transfer() {
+    public Transaction() {
         this.createdAt = LocalDateTime.now();
     }
 
