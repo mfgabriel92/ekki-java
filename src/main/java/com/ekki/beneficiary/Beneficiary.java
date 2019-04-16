@@ -21,8 +21,18 @@ public class Beneficiary {
     private Integer userId;
     @NotNull
     private String name;
+    @Column(name = "account_number")
     @NotNull
-    private String account;
+    private String accountNumber;
+    @NotNull
+    private String agency;
+    @Column(name = "bank_name")
+    @NotNull
+    private String bankName;
+    @NotNull
+    private String city;
+    @NotNull
+    private String state;
     private Double balance;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -56,12 +66,44 @@ public class Beneficiary {
         this.name = name;
     }
 
-    public String getAccount() {
-        return account;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getAgency() {
+        return agency;
+    }
+
+    public void setAgency(String agency) {
+        this.agency = agency;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public Double getBalance() {
