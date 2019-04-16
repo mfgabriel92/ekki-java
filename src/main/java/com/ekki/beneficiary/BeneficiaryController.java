@@ -15,12 +15,12 @@ public class BeneficiaryController {
     @Autowired
     private BeneficiaryRepository repository;
 
-    @GetMapping("/")
+    @GetMapping("")
     public Iterable<Beneficiary> fetchAll() {
         return repository.findAll(1);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Beneficiary addBeneficiary(@Valid @RequestBody Beneficiary beneficiary) {
         return repository.save(beneficiary);
     }
