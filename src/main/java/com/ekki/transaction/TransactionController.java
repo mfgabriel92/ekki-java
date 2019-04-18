@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/api/transfers")
+@RequestMapping(path = "/api/transactions")
 @CrossOrigin(origins = "http://localhost:3000")
 public class TransactionController {
     @Autowired
@@ -24,7 +24,7 @@ public class TransactionController {
     @Autowired
     private HistoryRepository historyRepository;
 
-    @PostMapping("/")
+    @PostMapping("")
     public Transaction addTransfer(@Valid @RequestBody Transaction transaction) {
         if (!transactionRepository.hasBeneficiaryWithId(transaction.getBeneficiaryId())) {
             throw new NotFoundException("Beneficiary does not exist");

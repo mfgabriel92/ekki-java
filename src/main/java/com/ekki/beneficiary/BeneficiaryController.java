@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,8 +17,8 @@ public class BeneficiaryController {
     private BeneficiaryRepository repository;
 
     @GetMapping("")
-    public Iterable<Beneficiary> fetchAll() {
-        return repository.findAll(1);
+    public Iterable<Beneficiary> fetchAll(@RequestParam int userId) {
+        return repository.findAll(userId);
     }
 
     @PostMapping("")

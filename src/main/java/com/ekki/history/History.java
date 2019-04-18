@@ -16,9 +16,9 @@ public class History {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "transfer_id")
+    @Column(name = "transaction_id")
     @NotNull
-    private Integer transferId;
+    private Integer transactionId;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -34,12 +34,12 @@ public class History {
         this.id = id;
     }
 
-    public Integer getTransferId() {
-        return transferId;
+    public Integer getTransactionId() {
+        return transactionId;
     }
 
-    public void setTransferId(Integer transferId) {
-        this.transferId = transferId;
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS transfers (
+CREATE TABLE IF NOT EXISTS transactions (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     beneficiary_id INT NOT NULL,
@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS transfers (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY(id),
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(beneficiary_id) REFERENCES beneficiaries(id)
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(beneficiary_id) REFERENCES beneficiaries(id) ON DELETE CASCADE
 )
