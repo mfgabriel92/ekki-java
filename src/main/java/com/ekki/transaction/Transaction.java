@@ -16,14 +16,18 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
     @Column(name = "user_id")
     @NotNull
     private Integer userId;
+    
     @Column(name = "beneficiary_id")
     @NotNull
     private Integer beneficiaryId;
+    
     @NotNull
     private Double amount;
+    
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

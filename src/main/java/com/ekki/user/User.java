@@ -19,7 +19,7 @@ public class User {
     private String cpf;
     @NotNull
     private String phone;
-    private String balance;
+    private Double balance;
 
     public Integer getId() {
         return id;
@@ -53,11 +53,11 @@ public class User {
         this.phone = phone;
     }
 
-    public String getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 }

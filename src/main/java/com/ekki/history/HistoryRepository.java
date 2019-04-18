@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface HistoryRepository extends CrudRepository<History, Integer> {
-    @Query(value = "SELECT h.* FROM histories h, transactions t WHERE h.transaction_id = t.id AND t.user_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT h.*, t.* FROM histories h, transactions t WHERE h.transaction_id = t.id AND t.user_id = ?1", nativeQuery = true)
     public Iterable<History> findAll(int userId);
 
     @Modifying
-    @Query(value = "INSERT INTO histories (transaction_id) VALUES (?1)", nativeQuery = true)
-    public Integer insertHistory(int transferId);
+    @Query(value = "INSERT INTO histories (user_id, transaction_id) VALUES (?1, ?2)", nativeQuery = true)
+    public Integer insertHistory(int transferId, String type);
 }

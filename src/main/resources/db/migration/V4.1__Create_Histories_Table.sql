@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS histories (
-    id INT NOT NULL AUTO_INCREMENT,
-    transaction_id INT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    PRIMARY KEY(id),
-    FOREIGN KEY(transaction_id) REFERENCES transactions(id) ON DELETE CASCADE
-)

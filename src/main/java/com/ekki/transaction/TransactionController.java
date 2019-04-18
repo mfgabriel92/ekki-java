@@ -1,10 +1,16 @@
 package com.ekki.transaction;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import com.ekki.NotFoundException;
+import com.ekki.beneficiary.BalanceLimitReachedException;
+import com.ekki.beneficiary.Beneficiary;
 import com.ekki.beneficiary.BeneficiaryRepository;
-import com.ekki.history.HistoryRepository;
+import com.ekki.user.InsufficientBalanceException;
+import com.ekki.user.User;
+import com.ekki.user.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,27 +24,36 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:3000")
 public class TransactionController {
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
     private BeneficiaryRepository beneficiaryRepository;
-    @Autowired
-    private HistoryRepository historyRepository;
 
     @PostMapping("")
     public Transaction addTransfer(@Valid @RequestBody Transaction transaction) {
-        if (!transactionRepository.hasBeneficiaryWithId(transaction.getBeneficiaryId())) {
+        Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(transaction.getBeneficiaryId());
+        
+        if (!beneficiary.isPresent()) {
             throw new NotFoundException("Beneficiary does not exist");
         }
 
-        Transaction newTransfer = transactionRepository.save(transaction);
+        Optional<User> user = userRepository.findById(transaction.getUserId());
+        Double userNewBalance = (user.get().getBalance() - transaction.getAmount());
 
-        try {
-            beneficiaryRepository.updateBeneficiaryBalance(newTransfer.getAmount(), newTransfer.getBeneficiaryId());
-            historyRepository.insertHistory(newTransfer.getId());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        if (userNewBalance < 0) {
+            throw new InsufficientBalanceException("Saldo insuficiente");
         }
 
-        return newTransfer;
+        Double beneficiaryNewBalance = (beneficiary.get().getBalance() + transaction.getAmount());
+
+        if (beneficiaryNewBalance > 500) {
+            throw new BalanceLimitReachedException("Limite de R$ 500,00 para o beneficiário excedido");
+        }
+        
+        beneficiary.get().setBalance(beneficiaryNewBalance);
+        user.get().setBalance(userNewBalance);
+
+        return transactionRepository.save(transaction);
     }
 }
