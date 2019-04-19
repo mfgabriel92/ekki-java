@@ -51,27 +51,27 @@ public class TransactionController {
      */
     @PostMapping("")
     public Transaction addTransfer(@Valid @RequestBody Transaction transaction) {
-        Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(transaction.getBeneficiaryId());
+        Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(transaction.getTransactionBeneficiaryId());
         
         if (!beneficiary.isPresent()) {
             throw new NotFoundException("Beneficiary does not exist");
         }
 
-        Optional<User> user = userRepository.findById(transaction.getUserId());
-        Double userNewBalance = (user.get().getBalance() - transaction.getAmount());
+        Optional<User> user = userRepository.findById(transaction.getTransactionUserId());
+        Double userNewBalance = (user.get().getUserBalance() - transaction.getTransactionAmount());
 
         if (userNewBalance < 0) {
-            throw new InsufficientBalanceException("{user.balance.insufficientBalance}");
+            throw new InsufficientBalanceException("Saldo insuficiente");
         }
 
-        Double beneficiaryNewBalance = (beneficiary.get().getBalance() + transaction.getAmount());
+        Double beneficiaryNewBalance = (beneficiary.get().getBeneficiaryBalance() + transaction.getTransactionAmount());
 
         if (beneficiaryNewBalance > 500) {
-            throw new BalanceLimitReachedException("{beneficiary.create.balanceLimitReached}");
+            throw new BalanceLimitReachedException("Limite de R$ 500,00 para o beneficiário excedido");
         }
         
-        beneficiary.get().setBalance(beneficiaryNewBalance);
-        user.get().setBalance(userNewBalance);
+        beneficiary.get().setBeneficiaryBalance(beneficiaryNewBalance);
+        user.get().setUserBalance(userNewBalance);
 
         return transactionRepository.save(transaction);
     }

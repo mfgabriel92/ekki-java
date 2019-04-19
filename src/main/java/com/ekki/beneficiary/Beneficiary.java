@@ -1,133 +1,153 @@
 package com.ekki.beneficiary;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.ekki.transaction.Transaction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "beneficiaries")
 public class Beneficiary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "beneficiary_id")
+    private Integer beneficiaryId;
     
-    @Column(name = "user_id")
     @NotNull
-    private Integer userId;
+    @Column(name = "beneficiary_user_id")
+    private Integer beneficiaryUserId;
     
     @NotEmpty(message = "{beneficiary.name.notEmpty}")
-    private String name;
+    @Column(name = "beneficiary_name")
+    private String beneficiaryName;
     
-    @Column(name = "account_number")
     @NotEmpty(message = "{beneficiary.accountNumber.notEmpty}")
-    private String accountNumber;
+    @Column(name = "beneficiary_account_number")
+    private String beneficiaryAccountNumber;
     
     @NotEmpty(message = "{beneficiary.agency.notEmpty}")
-    private String agency;
+    @Column(name = "beneficiary_agency")
+    private String beneficiaryAgency;
     
-    @Column(name = "bank_name")
     @NotEmpty(message = "{beneficiary.bankName.notEmpty}")
-    private String bankName;
+    @Column(name = "beneficiary_bank_name")
+    private String beneficiaryBankName;
     
     @NotEmpty(message = "{beneficiary.city.notEmpty}")
-    private String city;
+    @Column(name = "beneficiary_city")
+    private String beneficiaryCity;
     
     @NotEmpty(message = "{beneficiary.state.notEmpty}")
-    private String state;
-    private Double balance;
+    @Column(name = "beneficiary_state")
+    private String beneficiaryState;
+
+    @Column(name = "beneficiary_balance")
+    private Double beneficiaryBalance = 0d;
     
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "beneficiary_created_at")
+    private LocalDateTime beneficiaryCreatedAt = LocalDateTime.now();
 
-    public Beneficiary() {
-        this.createdAt = LocalDateTime.now();
-        this.balance = 0d;
+    @JsonIgnore
+    @OneToMany(mappedBy = "beneficiary")
+    private Set<Transaction> transactions = new HashSet<>();
+
+    public Integer getBeneficiaryId() {
+        return beneficiaryId;
     }
 
-    public Integer getId() {
-        return id;
+    public void setBeneficiaryId(Integer beneficiaryId) {
+        this.beneficiaryId = beneficiaryId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getBeneficiaryUserId() {
+        return beneficiaryUserId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public void setBeneficiaryUserId(Integer beneficiaryUserId) {
+        this.beneficiaryUserId = beneficiaryUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public String getBeneficiaryName() {
+        return beneficiaryName;
     }
 
-    public String getName() {
-        return name;
+    public void setBeneficiaryName(String beneficiaryName) {
+        this.beneficiaryName = beneficiaryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getBeneficiaryAccountNumber() {
+        return beneficiaryAccountNumber;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public void setBeneficiaryAccountNumber(String beneficiaryAccountNumber) {
+        this.beneficiaryAccountNumber = beneficiaryAccountNumber;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public String getBeneficiaryAgency() {
+        return beneficiaryAgency;
     }
 
-    public String getAgency() {
-        return agency;
+    public void setBeneficiaryAgency(String beneficiaryAgency) {
+        this.beneficiaryAgency = beneficiaryAgency;
     }
 
-    public void setAgency(String agency) {
-        this.agency = agency;
+    public String getBeneficiaryBankName() {
+        return beneficiaryBankName;
     }
 
-    public String getBankName() {
-        return bankName;
+    public void setBeneficiaryBankName(String beneficiaryBankName) {
+        this.beneficiaryBankName = beneficiaryBankName;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public String getBeneficiaryCity() {
+        return beneficiaryCity;
     }
 
-    public String getCity() {
-        return city;
+    public void setBeneficiaryCity(String beneficiaryCity) {
+        this.beneficiaryCity = beneficiaryCity;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public String getBeneficiaryState() {
+        return beneficiaryState;
     }
 
-    public String getState() {
-        return state;
+    public void setBeneficiaryState(String beneficiaryState) {
+        this.beneficiaryState = beneficiaryState;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public Double getBeneficiaryBalance() {
+        return beneficiaryBalance;
     }
 
-    public Double getBalance() {
-        return balance;
+    public void setBeneficiaryBalance(Double beneficiaryBalance) {
+        this.beneficiaryBalance = beneficiaryBalance;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public LocalDateTime getBeneficiaryCreatedAt() {
+        return beneficiaryCreatedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public void setBeneficiaryCreatedAt(LocalDateTime beneficiaryCreatedAt) {
+        this.beneficiaryCreatedAt = beneficiaryCreatedAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

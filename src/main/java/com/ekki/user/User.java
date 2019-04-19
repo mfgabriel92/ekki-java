@@ -1,5 +1,6 @@
 package com.ekki.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,52 +13,61 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "user_id")
+    private Integer userId;
+
     @NotNull
-    private String name;
+    @Column(name = "user_name")    
+    private String userName;
+    
     @NotNull
-    private String cpf;
+    @Column(name = "user_cpf")
+    private String userCpf;
+    
     @NotNull
-    private String phone;
-    private Double balance;
+    @Column(name = "user_phone")
+    private String userPhone;
 
-    public Integer getId() {
-        return id;
+    @Column(name = "user_balance")
+    private Double userBalance;
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getUserCpf() {
+        return userCpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setUserCpf(String userCpf) {
+        this.userCpf = userCpf;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
-    public Double getBalance() {
-        return balance;
+    public Double getUserBalance() {
+        return userBalance;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public void setUserBalance(Double userBalance) {
+        this.userBalance = userBalance;
     }
 }

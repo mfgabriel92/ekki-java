@@ -7,72 +7,84 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.ekki.beneficiary.Beneficiary;
 
 @Entity
 @Table(name = "transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "transaction_id")
+    private Integer transactionId;
     
-    @Column(name = "user_id")
     @NotNull
-    private Integer userId;
+    @Column(name = "transaction_user_id")
+    private Integer transactionUserId;
     
-    @Column(name = "beneficiary_id")
     @NotNull(message = "{transaction.beneficiaryId.notNull}")
-    private Integer beneficiaryId;
+    @Column(name = "transaction_beneficiary_id")
+    private Integer transactionBeneficiaryId;
     
     @NotNull(message = "{transaction.amount.notEmpty}")
-    private Double amount;
+    private Double transactionAmount;
     
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "transaction_created_at")
+    private LocalDateTime transactionCreatedAt = LocalDateTime.now();
 
-    public Transaction() {
-        this.createdAt = LocalDateTime.now();
+    @ManyToOne
+    @JoinColumn(name = "transaction_beneficiary_id", insertable = false, updatable = false)
+    private Beneficiary beneficiary;
+
+    public Integer getTransactionId() {
+        return transactionId;
     }
 
-    public Integer getId() {
-        return id;
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getTransactionUserId() {
+        return transactionUserId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public void setTransactionUserId(Integer transactionUserId) {
+        this.transactionUserId = transactionUserId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public Integer getTransactionBeneficiaryId() {
+        return transactionBeneficiaryId;
     }
 
-    public Integer getBeneficiaryId() {
-        return beneficiaryId;
+    public void setTransactionBeneficiaryId(Integer transactionBeneficiaryId) {
+        this.transactionBeneficiaryId = transactionBeneficiaryId;
     }
 
-    public void setBeneficiaryId(Integer beneficiaryId) {
-        this.beneficiaryId = beneficiaryId;
+    public Double getTransactionAmount() {
+        return transactionAmount;
     }
 
-    public Double getAmount() {
-        return amount;
+    public void setTransactionAmount(Double transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public LocalDateTime getTransactionCreatedAt() {
+        return transactionCreatedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public void setTransactionCreatedAt(LocalDateTime transactionCreatedAt) {
+        this.transactionCreatedAt = transactionCreatedAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public Beneficiary getBeneficiary() {
+        return beneficiary;
+    }
+
+    public void setBeneficiary(Beneficiary beneficiary) {
+        this.beneficiary = beneficiary;
     }
 }
