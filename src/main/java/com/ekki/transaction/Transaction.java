@@ -32,6 +32,9 @@ public class Transaction {
     
     @NotNull(message = "{transaction.amount.notEmpty}")
     private Double transactionAmount;
+
+    @Column(name = "transaction_status")
+    private String transactionStatus = "Aprovada";
     
     @Column(name = "transaction_created_at")
     private LocalDateTime transactionCreatedAt = LocalDateTime.now();
@@ -70,6 +73,14 @@ public class Transaction {
 
     public void setTransactionAmount(Double transactionAmount) {
         this.transactionAmount = transactionAmount;
+    }
+
+    public String getTransactionStatus() {
+        return transactionStatus;
+    }
+
+    public void setTransactionStatus(String transactionStatus) {
+        this.transactionStatus = transactionStatus;
     }
 
     public LocalDateTime getTransactionCreatedAt() {

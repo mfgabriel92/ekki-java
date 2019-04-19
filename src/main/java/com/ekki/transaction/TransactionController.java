@@ -52,7 +52,7 @@ public class TransactionController {
     @PostMapping("")
     public Transaction addTransfer(@Valid @RequestBody Transaction transaction) {
         Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(transaction.getTransactionBeneficiaryId());
-        
+
         if (!beneficiary.isPresent()) {
             throw new NotFoundException("Beneficiary does not exist");
         }
@@ -64,13 +64,20 @@ public class TransactionController {
             throw new InsufficientBalanceException("Saldo insuficiente");
         }
 
-        Double beneficiaryNewBalance = (beneficiary.get().getBeneficiaryBalance() + transaction.getTransactionAmount());
+        Optional<Transaction> previousTransaction = transactionRepository.findTransactionLessThan2MinutesAgo(transaction.getTransactionUserId(), transaction.getTransactionAmount(), transaction.getTransactionBeneficiaryId());
 
-        if (beneficiaryNewBalance > 500) {
-            throw new BalanceLimitReachedException("Limite de R$ 500,00 para o beneficiário excedido");
+        if (previousTransaction.isPresent()) {
+            previousTransaction.get().setTransactionStatus("CANCELADA");
+        } else {
+            Double beneficiaryNewBalance = (beneficiary.get().getBeneficiaryBalance() + transaction.getTransactionAmount());
+
+            if (beneficiaryNewBalance > 500) {
+                throw new BalanceLimitReachedException("Limite de R$ 500,00 para o beneficiário excedido");
+            }
+            
+            beneficiary.get().setBeneficiaryBalance(beneficiaryNewBalance);
         }
-        
-        beneficiary.get().setBeneficiaryBalance(beneficiaryNewBalance);
+
         user.get().setUserBalance(userNewBalance);
 
         return transactionRepository.save(transaction);
