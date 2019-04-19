@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -22,10 +23,10 @@ public class Transaction {
     private Integer userId;
     
     @Column(name = "beneficiary_id")
-    @NotNull
+    @NotNull(message = "{transaction.beneficiaryId.notNull}")
     private Integer beneficiaryId;
     
-    @NotNull
+    @NotNull(message = "{transaction.amount.notEmpty}")
     private Double amount;
     
     @Column(name = "created_at")

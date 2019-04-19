@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -16,24 +17,32 @@ public class Beneficiary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
     @Column(name = "user_id")
     @NotNull
     private Integer userId;
-    @NotNull
+    
+    @NotEmpty(message = "{beneficiary.name.notEmpty}")
     private String name;
+    
     @Column(name = "account_number")
-    @NotNull
+    @NotEmpty(message = "{beneficiary.accountNumber.notEmpty}")
     private String accountNumber;
-    @NotNull
+    
+    @NotEmpty(message = "{beneficiary.agency.notEmpty}")
     private String agency;
+    
     @Column(name = "bank_name")
-    @NotNull
+    @NotEmpty(message = "{beneficiary.bankName.notEmpty}")
     private String bankName;
-    @NotNull
+    
+    @NotEmpty(message = "{beneficiary.city.notEmpty}")
     private String city;
-    @NotNull
+    
+    @NotEmpty(message = "{beneficiary.state.notEmpty}")
     private String state;
     private Double balance;
+    
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

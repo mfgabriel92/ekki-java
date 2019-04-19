@@ -1,4 +1,4 @@
-package com.ekki;
+package com.ekki.util;
 
 import java.util.Arrays;
 

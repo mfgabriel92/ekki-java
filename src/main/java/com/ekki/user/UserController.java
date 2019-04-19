@@ -13,6 +13,11 @@ public class UserController {
     @Autowired
     private UserRepository repository;
 
+    /**
+     * Fetches the information of the logged in {@link User}
+     * 
+     * @return the user's information
+     */
     @GetMapping("me")
     public User me() {
         Optional<User> ouser = repository.findById(1);
