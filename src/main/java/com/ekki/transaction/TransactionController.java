@@ -51,34 +51,36 @@ public class TransactionController {
      */
     @PostMapping("")
     public Transaction addTransfer(@Valid @RequestBody Transaction transaction) {
-        Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(transaction.getTransactionBeneficiaryId());
+        Optional<Beneficiary> findBeneficiary = beneficiaryRepository.findById(transaction.getTransactionBeneficiaryId());
 
-        if (!beneficiary.isPresent()) {
+        if (!findBeneficiary.isPresent()) {
             throw new NotFoundException("Beneficiary does not exist");
         }
 
-        Optional<User> user = userRepository.findById(transaction.getTransactionUserId());
-        Double userNewBalance = (user.get().getUserBalance() - transaction.getTransactionAmount());
+        User user = userRepository.findById(transaction.getTransactionUserId()).get();
+        Beneficiary beneficiary = findBeneficiary.get();
+        Double userNewBalance = (user.getUserBalance() - transaction.getTransactionAmount());
 
         if (userNewBalance < 0) {
             throw new InsufficientBalanceException("Saldo insuficiente");
         }
 
-        Optional<Transaction> previousTransaction = transactionRepository.findTransactionLessThan2MinutesAgo(transaction.getTransactionUserId(), transaction.getTransactionAmount(), transaction.getTransactionBeneficiaryId());
+        Optional<Transaction> findPreviousTransaction = transactionRepository.findTransactionLessThan2MinutesAgo(transaction.getTransactionUserId(), transaction.getTransactionAmount(), transaction.getTransactionBeneficiaryId());
 
-        if (previousTransaction.isPresent()) {
-            previousTransaction.get().setTransactionStatus("CANCELADA");
+        if (findPreviousTransaction.isPresent()) {
+            Transaction previousTransaction = findPreviousTransaction.get();
+            previousTransaction.setTransactionStatus("CANCELADA");
+            previousTransaction.setTransactionType("RECEIVED");
         } else {
-            Double beneficiaryNewBalance = (beneficiary.get().getBeneficiaryBalance() + transaction.getTransactionAmount());
+            Double beneficiaryNewBalance = (findBeneficiary.get().getBeneficiaryBalance() + transaction.getTransactionAmount());
 
             if (beneficiaryNewBalance > 500) {
                 throw new BalanceLimitReachedException("Limite de R$ 500,00 para o beneficiário excedido");
             }
             
-            beneficiary.get().setBeneficiaryBalance(beneficiaryNewBalance);
+            beneficiary.setBeneficiaryBalance(beneficiaryNewBalance);
+            user.setUserBalance(userNewBalance);
         }
-
-        user.get().setUserBalance(userNewBalance);
 
         return transactionRepository.save(transaction);
     }
